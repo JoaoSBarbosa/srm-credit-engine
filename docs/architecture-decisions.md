@@ -155,3 +155,42 @@ Pode não estar disponível em ambientes legados
 
 ---
 
+# ADR-005 - Modelagem e Integridade da Tabela de Câmbio (`exchange_rate`)
+
+## Decisão
+> Foi adotada uma modelagem com regras rígidas de integridade no nível de banco de dados (constraints `CHECK` e `UNIQUE`) e indexação composta otimizada na tabela `exchange_rate`.
+
+## Contexto
+O sistema realiza conversões de moedas e auditoria de liquidações financeiras. Cotações zeradas, negativas ou duplicadas no mesmo dia podem causar falhas críticas de cálculo (como divisão por zero) ou inconsistências contábeis. Além disso, consultas de cotação por par de moedas e data são frequentes e críticas para a performance.
+
+## Alternativas avaliadas
+
+- Validação das regras de negócio apenas no backend (Spring Boot/Bean Validation).
+- Validação no backend + Constraints de Integridade e Índices Dedicados no PostgreSQL (Escolhido).
+
+## Motivo da escolha
+
+A combinação de validações no banco e índice planejado foi adotada por três razões principais:
+
+1. **Defesa em Profundidade (*Defense in Depth*) e Constraint `CHECK`:**
+   A constraint `CHECK (exchange_rate > 0)` garante que nenhuma taxa menor ou igual a zero seja inserida. Isso previne falhas graves na aplicação (como divisão por zero no cálculo de conversão) e assegura que os dados permaneçam válidos mesmo que ocorra um bug no backend ou um script SQL seja executado diretamente no banco.
+
+2. **Garantia de Invariância Contábil e Constraint `UNIQUE`:**
+   A constraint `uq_rate_by_date` garante a unicidade do par `(target_currency_id, source_currency_id, reference_date)`, impedindo a existência de duas cotações conflitantes para o mesmo par de moedas no mesmo dia.
+
+3. **Otimização de Consultas e Índice Composto DESC (`idx_exchange_rate_search`):**
+   A consulta mais frequente do sistema busca a cotação de um par específico de moedas na data mais recente. O índice composto `(source_currency_id, target_currency_id, reference_date DESC)` cobre exatamente os campos da cláusula `WHERE` e a ordenação do `ORDER BY reference_date DESC`, permitindo uma busca via *Index Scan* de baixíssima latência ($O(\log N)$).
+
+4. **Precisão Numérica (`DECIMAL(18, 6)`):**
+   O tipo `DECIMAL` foi escolhido em detrimento do `FLOAT`/`DOUBLE` para evitar inconsistências decorrentes do arredondamento de ponto flutuante em operações financeiras.
+
+## Vantagens
+
+- **Integridade Garantida:** Impede a entrada de dados inválidos no nível mais baixo da infraestrutura.
+- **Alta Performance em Leitura:** Índice alinhado com o padrão de acesso mais comum do sistema.
+- **Auditoria Confiável:** Impossibilita cotações duplicadas na mesma data de referência.
+- **Precisão Financeira:** Uso correto de tipo numérico exato para taxas de conversão.
+
+## Desvantagens
+
+- **Pequeno Overhead em Escrita:** A verificação de constraints e atualização do índice adiciona um custo insignificante no `INSERT`/`UPDATE` (aceitável dado que cotações têm volume de leitura muito superior ao de escrita).

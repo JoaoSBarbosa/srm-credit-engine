@@ -1,4 +1,8 @@
 spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 
   datasource:
     url: jdbc:postgresql://localhost:5435/srm_credit_engine
