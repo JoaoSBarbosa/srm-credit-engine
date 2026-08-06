@@ -1,8 +1,8 @@
-package br.com.joaobarbosa.srm.creditengine.service.strategy.resolver.impl;
+package br.com.joaobarbosa.srm.creditengine.service.strategy.impl;
 
 import br.com.joaobarbosa.srm.creditengine.exception.UnsupportedReceivableTypeException;
 import br.com.joaobarbosa.srm.creditengine.service.strategy.PricingStrategy;
-import br.com.joaobarbosa.srm.creditengine.service.strategy.resolver.PricingStrategyResolver;
+import br.com.joaobarbosa.srm.creditengine.service.strategy.PricingStrategyResolver;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
