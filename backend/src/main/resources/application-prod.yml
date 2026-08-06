@@ -13,3 +13,8 @@ spring:
     properties:
       hibernate:
         format_sql: false
+
+
+srm:
+  pricing:
+    base-rate: 0.0100
