@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: srm-credit-engine
+  jpa:
+    open-in-view: false
+  flyway:
+    enabled: true
