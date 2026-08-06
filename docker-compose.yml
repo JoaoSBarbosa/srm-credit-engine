@@ -1,0 +1,21 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: srm-postgres
+    environment:
+      POSTGRES_DB: srm_credit_engine
+      POSTGRES_USER: srm_admin
+      POSTGRES_PASSWORD: Srm#2026!DbApp
+
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - srm-network
+volumes:
+  postgres_data:
+
+networks:
+  srm-network:
