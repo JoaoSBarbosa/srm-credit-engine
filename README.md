@@ -10,6 +10,10 @@ Plataforma de cessão de crédito multimoedas para a SRM Asset — recebe receb�
 - **Banco**: PostgreSQL + Flyway
 - **Infra**: Docker + Docker Compose
 
+## Modelo de relacionamento 
+
+![Diagrama ER](docs/diagrams/er-diagram.jpg)
+
 ## Estrutura
 
 ```
