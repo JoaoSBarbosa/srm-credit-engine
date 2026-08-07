@@ -1,0 +1,14 @@
+package br.com.joaobarbosa.srm.creditengine.strategy;
+
+import java.math.BigDecimal;
+
+public interface PricingStrategy {
+    String getReceivableTypeCode();
+
+    BigDecimal calculatePresentValue(
+            BigDecimal faceValue,
+            BigDecimal baseRate,
+            long installments
+    );
+}
+
