@@ -4,6 +4,8 @@ import br.com.joaobarbosa.srm.creditengine.dto.exchange.request.CreateExchangeRa
 import br.com.joaobarbosa.srm.creditengine.dto.exchange.request.UpdateExchangeRateRequest;
 import br.com.joaobarbosa.srm.creditengine.dto.exchange.response.ExchangeRateResponse;
 import br.com.joaobarbosa.srm.creditengine.service.ExchangeRateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/exchange-rates")
+@Tag(name = "Exchange Rate", description = "Endpoints for managing exchange rates")
 public class ExchangeRateController {
 
     private final ExchangeRateService exchangeRateService;
@@ -24,6 +27,7 @@ public class ExchangeRateController {
     }
 
     @PostMapping
+    @Operation(summary = "Create Exchange Rate", description = "Cria uma nova taxa de câmbio entre duas moedas.")
     public ResponseEntity<ExchangeRateResponse> create(@Valid @RequestBody CreateExchangeRateRequest createExchangeRateRequest) {
         ExchangeRateResponse exchangeRateResponse = exchangeRateService.create(createExchangeRateRequest);
 
@@ -34,6 +38,7 @@ public class ExchangeRateController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update Exchange Rate", description = "Atualiza uma taxa de câmbio existente.")
     public ResponseEntity<ExchangeRateResponse> update(
             @PathVariable UUID id,
             @Valid @RequestBody UpdateExchangeRateRequest updateExchangeRateRequest) {
@@ -42,11 +47,11 @@ public class ExchangeRateController {
     }
 
     @PostMapping("/sync")
+    @Operation(summary = "Sync Exchange Rate", description = "Sincroniza a taxa de câmbio com um provedor mockado.")
     public ResponseEntity<ExchangeRateResponse> syncFromMockedProvider(
             @RequestParam UUID sourceCurrencyId,
             @RequestParam UUID targetCurrencyId
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(exchangeRateService.syncFromMockedProvider(sourceCurrencyId, targetCurrencyId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(exchangeRateService.syncFromMockedProvider(sourceCurrencyId, targetCurrencyId));
     }
 }

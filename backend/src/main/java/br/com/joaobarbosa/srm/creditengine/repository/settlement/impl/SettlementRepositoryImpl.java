@@ -99,7 +99,7 @@ public class SettlementRepositoryImpl implements SettlementRepositoryCustom {
         if (filter.endDate() != null) conditions.add("s.created_at < :endDate");
         if (conditions.isEmpty()) return "";
 
-        return "WHERE " + String.join("\nAND ", conditions);
+        return "WHERE " + String.join("\nAND ", conditions) + "\n";
     }
 
     private void bindParams(Query query, SettlementFilterRequest filter

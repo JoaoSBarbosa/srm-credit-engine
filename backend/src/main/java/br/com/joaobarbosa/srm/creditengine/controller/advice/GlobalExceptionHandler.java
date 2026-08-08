@@ -4,6 +4,7 @@ import br.com.joaobarbosa.srm.creditengine.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,8 +18,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler({DomainNotFoundException.class, ExchangeRateNotFoundException.class})
     public ResponseEntity<Map<String, Object>> notFound(RuntimeException ex) {
@@ -42,6 +42,16 @@ public class GlobalExceptionHandler {
                 : ex.getMessage();
 
         return build(HttpStatus.CONFLICT, message);
+    }
+
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<Map<String, Object>> invalidDataAccessApiUsage(
+            InvalidDataAccessApiUsageException ex
+    ) {
+        return build(
+                HttpStatus.BAD_REQUEST,
+                "Parâmetro de paginação ou ordenação inválido."
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

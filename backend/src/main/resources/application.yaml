@@ -1,3 +1,33 @@
 spring:
   application:
     name: credit-engine
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+  swagger-ui:
+    path: /swagger-ui.html
+
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+    doc-expansion: list
+    default-model-rendering: example
+    default-model-expand-depth: 2
+    default-models-expand-depth: 1
+
+    filter: true
+    display-operation-id: false
+    display-request-duration: true
+    deep-linking: true
+
+    try-it-out-enabled: true
+
+    show-extensions: false
+    show-common-extensions: false
+
+    syntax-highlight:
+      activated: true
+      theme: nord

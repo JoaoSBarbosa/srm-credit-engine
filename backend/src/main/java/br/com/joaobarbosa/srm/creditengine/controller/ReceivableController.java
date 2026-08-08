@@ -6,6 +6,8 @@ import br.com.joaobarbosa.srm.creditengine.dto.receivable.request.UpdateReceivab
 import br.com.joaobarbosa.srm.creditengine.dto.receivable.response.ReceivableBatchResponse;
 import br.com.joaobarbosa.srm.creditengine.dto.receivable.response.ReceivableResponse;
 import br.com.joaobarbosa.srm.creditengine.service.ReceivableService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/receivables")
+@Tag(name = "Receivables", description = "Operações de cadastro e gerenciamento de recebíveis")
 public class ReceivableController {
 
     private final ReceivableService receivableService;
@@ -26,6 +29,7 @@ public class ReceivableController {
     }
 
     @PostMapping
+    @Operation(summary = "Criar recebível", description = "Cadastra um novo recebível no Credit Engine.")
     public ResponseEntity<ReceivableResponse> create(
             @RequestBody @Valid CreateReceivableRequest request
     ) {
@@ -42,6 +46,7 @@ public class ReceivableController {
     }
 
     @PostMapping("/batch")
+    @Operation(summary = "Criar lote de recebíveis", description = "Cadastra um lote de recebíveis no Credit Engine.")
     public ResponseEntity<ReceivableBatchResponse> createBatch(@RequestBody @Valid CreateReceivableBatchRequest batchRequest) {
         ReceivableBatchResponse response = receivableService.createBatch(batchRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -49,12 +54,14 @@ public class ReceivableController {
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar recebível", description = "Retorna um recebível pelo seu identificador.")
     public ResponseEntity<ReceivableResponse> findById(@PathVariable UUID id
     ) {
         return ResponseEntity.ok(receivableService.findById(id));
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar recebível", description = "Atualiza um recebível existente no Credit Engine.")
     public ResponseEntity<ReceivableResponse> update(
             @PathVariable UUID id,
             @RequestBody @Valid UpdateReceivableRequest request

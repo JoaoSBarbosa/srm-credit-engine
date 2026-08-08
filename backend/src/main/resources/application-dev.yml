@@ -8,7 +8,6 @@ spring:
     url: jdbc:postgresql://localhost:5435/srm_credit_engine
     username: srm_admin
     password: Srm#2026!DbApp
-    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
