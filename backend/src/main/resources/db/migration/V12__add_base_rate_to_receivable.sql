@@ -1,0 +1,2 @@
+ALTER TABLE receivable
+    ADD COLUMN base_rate NUMERIC(6, 4) NOT NULL DEFAULT 0.0000;

@@ -1,19 +1,21 @@
 package br.com.joaobarbosa.srm.creditengine.model.entity;
+
 import br.com.joaobarbosa.srm.creditengine.model.base.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "exchange_rate")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @ToString(callSuper = true, exclude = {"targetCurrency", "sourceCurrency"})
 public class ExchangeRate extends AuditableEntity {
-
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_currency_id", nullable = false)
