@@ -27,7 +27,7 @@ public record UpdateReceivableRequest(
 
 
         @NotNull(message = "A data de vencimento é obrigatória.")
-        LocalDate dueDate
-
+        LocalDate dueDate,
+        BigDecimal baseRate
 ) {
 }

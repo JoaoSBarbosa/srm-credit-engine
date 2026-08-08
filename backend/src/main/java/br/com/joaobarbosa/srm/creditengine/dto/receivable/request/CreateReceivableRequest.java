@@ -24,7 +24,9 @@ public record CreateReceivableRequest(
         @NotNull(message = "A data de vencimento é obrigatória")
         LocalDate dueDate,
         @NotNull(message = "A data da operação é obrigatória")
-        LocalDate operationDate
+        LocalDate operationDate,
+        @NotNull(message = "A taxa base é obrigatória")
+        BigDecimal baseRate
 
 ) {
 }

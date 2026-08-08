@@ -5,7 +5,3 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
-
-srm:
-  pricing:
-    base-rate: 0.0100
