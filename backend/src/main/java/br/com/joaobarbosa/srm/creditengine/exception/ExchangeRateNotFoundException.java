@@ -7,4 +7,8 @@ public class ExchangeRateNotFoundException extends BusinessException {
     public ExchangeRateNotFoundException(String source, String target) {
         super("Taxa de câmbio não encontrada para o par: " + source + "->" + target);
     }
+
+    public ExchangeRateNotFoundException(UUID id) {
+        super("Taxa de câmbio não encontrada para o ID: " + id);
+    }
 }
