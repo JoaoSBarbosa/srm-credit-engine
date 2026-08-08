@@ -8,6 +8,7 @@ public interface PricingStrategy {
     BigDecimal calculatePresentValue(
             BigDecimal faceValue,
             BigDecimal baseRate,
+            BigDecimal spread,
             long installments
     );
 }
