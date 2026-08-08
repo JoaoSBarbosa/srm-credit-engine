@@ -6,6 +6,7 @@ import br.com.joaobarbosa.srm.creditengine.dto.receivable.request.UpdateReceivab
 import br.com.joaobarbosa.srm.creditengine.dto.receivable.response.ReceivableBatchResponse;
 import br.com.joaobarbosa.srm.creditengine.dto.receivable.response.ReceivableResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ReceivableService {
@@ -17,6 +18,8 @@ public interface ReceivableService {
     ReceivableResponse update(UUID id, UpdateReceivableRequest request);
 
     ReceivableResponse findById(UUID id);
+
+    List<ReceivableResponse> findPending();
 
     void delete(UUID id);
 }
