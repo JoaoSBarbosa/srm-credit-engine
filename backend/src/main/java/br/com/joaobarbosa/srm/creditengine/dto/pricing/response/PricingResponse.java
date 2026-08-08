@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public record PricingResponse(
 
+        UUID settlementId,
         UUID receivableId,
         BigDecimal faceValue,
         BigDecimal presentValue,

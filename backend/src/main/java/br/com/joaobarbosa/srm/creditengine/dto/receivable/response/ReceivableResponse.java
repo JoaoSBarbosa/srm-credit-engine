@@ -23,7 +23,8 @@ public record ReceivableResponse(
 
         LocalDate dueDate,
 
-        LocalDate operationDate
+        LocalDate operationDate,
 
+        BigDecimal baseRate
 ) {
 }

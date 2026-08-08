@@ -1,14 +1,15 @@
 package br.com.joaobarbosa.srm.creditengine.dto.pricing.response;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record PricingSimulationResponse(
 
-        UUID receivableId,
         BigDecimal faceValue,
+        BigDecimal spreadRate,
+        BigDecimal totalRate,
+        long installments,
         BigDecimal presentValue,
-        BigDecimal exchangeRate,
+        BigDecimal appliedExchangeRate,
         BigDecimal netAmount
 
 ) {
