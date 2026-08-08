@@ -1,8 +1,9 @@
-
 services:
+
   postgres:
     image: postgres:16-alpine
     container_name: srm-postgres
+
     environment:
       POSTGRES_DB: srm_credit_engine
       POSTGRES_USER: srm_admin
@@ -10,12 +11,47 @@ services:
 
     ports:
       - "5435:5432"
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
     networks:
       - srm-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U srm_admin -d srm_credit_engine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: srm-backend
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/srm_credit_engine
+      SPRING_DATASOURCE_USERNAME: srm_admin
+      SPRING_DATASOURCE_PASSWORD: Srm#2026!DbApp
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - srm-network
+
+
 volumes:
   postgres_data:
+
 
 networks:
   srm-network:
