@@ -11,6 +11,8 @@ export function Header() {
             width={36}
             height={36}
             priority
+            className="h-9 w-auto object-contain"
+            sizes="36px"
           />
 
           <span className="text-base font-semibold sm:text-lg">
