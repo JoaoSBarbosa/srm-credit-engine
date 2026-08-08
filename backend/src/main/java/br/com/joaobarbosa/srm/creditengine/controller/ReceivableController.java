@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -58,6 +59,13 @@ public class ReceivableController {
     public ResponseEntity<ReceivableResponse> findById(@PathVariable UUID id
     ) {
         return ResponseEntity.ok(receivableService.findById(id));
+    }
+
+    @GetMapping
+    @Operation(summary = "Buscar todos recebiveis", description = "Retorna todos")
+    public ResponseEntity<List<ReceivableResponse>> findAll() {
+        List<ReceivableResponse> response = receivableService.findPending();
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
