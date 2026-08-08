@@ -6,9 +6,10 @@ import br.com.joaobarbosa.srm.creditengine.mappers.CurrencyMapper;
 import br.com.joaobarbosa.srm.creditengine.model.entity.Currency;
 import br.com.joaobarbosa.srm.creditengine.repository.CurrencyRepository;
 import br.com.joaobarbosa.srm.creditengine.service.CurrencyService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,12 +32,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<CurrencyResponse> findAll() {
+    public Page<CurrencyResponse> findAll(Pageable pageable) {
 
-        return repository.findAll()
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+        return repository.findAll(pageable)
+                .map(mapper::toResponse);
     }
 
 }

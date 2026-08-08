@@ -9,33 +9,25 @@ import java.math.RoundingMode;
 public abstract class AbstractPricingStrategy implements PricingStrategy {
 
     private static final int SCALE = 2;
+    private static final MathContext MC = MathContext.DECIMAL128;
 
     @Override
-    public BigDecimal calculatePresentValue(BigDecimal faceValue, BigDecimal baseRate, long installments) {
+    public BigDecimal calculatePresentValue(
+            BigDecimal faceValue,
+            BigDecimal baseRate,
+            BigDecimal spread,
+            long installments) {
 
-        BigDecimal spread = getSpread();
 
         if (installments <= 0) {
             throw new InvalidInstallmentPeriodException(installments);
         }
 
+        BigDecimal total = BigDecimal.ONE.add(baseRate, MC).add(spread, MC);
+        BigDecimal discountFactor = total.pow((int) installments, MC);
+        BigDecimal raw = faceValue.divide(discountFactor, MC);
 
-        BigDecimal totalRate =
-                BigDecimal.ONE
-                        .add(baseRate)
-                        .add(spread);
-
-
-        BigDecimal discountFactor = totalRate.pow(
-                (int) installments,
-                MathContext.DECIMAL64);
-
-        return faceValue.divide(
-                discountFactor,
-                SCALE,
-                RoundingMode.HALF_UP
-        );
+        return raw.setScale(SCALE, RoundingMode.HALF_UP);
     }
 
-    protected abstract BigDecimal getSpread();
 }
