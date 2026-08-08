@@ -1,18 +1,22 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 
 type AppShellProps = {
   children: ReactNode;
 };
+
 export function AppShell({ children }: AppShellProps) {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="border-b border-white/10 bg-slate-900/80">
-        <div className="mx-auto flex h-16 max-w-7xl items-center px-6">
-          <span className="text-lg font-semibold">SRM Credit Engine</span>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100">
+      <Header />
 
-      <main className="mx-auto max-w-7xl px-6 py-8">{children}</main>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-6 py-8">
+        {children}
+      </main>
+
+      <Footer />
     </div>
   );
 }
