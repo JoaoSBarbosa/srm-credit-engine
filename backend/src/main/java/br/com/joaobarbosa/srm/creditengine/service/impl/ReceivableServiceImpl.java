@@ -12,6 +12,7 @@ import br.com.joaobarbosa.srm.creditengine.model.entity.Assignor;
 import br.com.joaobarbosa.srm.creditengine.model.entity.Currency;
 import br.com.joaobarbosa.srm.creditengine.model.entity.Receivable;
 import br.com.joaobarbosa.srm.creditengine.model.entity.ReceivableType;
+import br.com.joaobarbosa.srm.creditengine.model.enums.OperationStatus;
 import br.com.joaobarbosa.srm.creditengine.repository.ReceivableRepository;
 import br.com.joaobarbosa.srm.creditengine.service.AssignorService;
 import br.com.joaobarbosa.srm.creditengine.service.CurrencyService;
@@ -103,6 +104,16 @@ public class ReceivableServiceImpl implements ReceivableService {
         return mapper.toResponse(entity);
     }
 
+    @Override
+    public List<ReceivableResponse> findPending() {
+        List<Receivable> receivables =
+                receivableRepository.findAllByStatus(OperationStatus.PENDING);
+
+        return receivables.stream()
+                .map(mapper::toResponse)
+                .toList();
+    
+    }
 
     @Override
     public void delete(UUID id) {
