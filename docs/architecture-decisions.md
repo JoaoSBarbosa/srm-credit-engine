@@ -1,6 +1,5 @@
 # Decisões de Arquitetura
 
-
 Este documento registra as principais decisões arquiteturais adotadas durante o desenvolvimento do **SRM Credit Engine**.
 
 O objetivo é documentar não apenas **o que foi escolhido**, mas principalmente **o motivo da escolha**, as alternativas avaliadas e os impactos técnicos da decisão.
@@ -152,15 +151,16 @@ Compatibilidade com Spring Boot.
 
 Pode não estar disponível em ambientes legados
 
-
 ---
 
 # ADR-005 - Modelagem e Integridade da Tabela de Câmbio (`exchange_rate`)
 
 ## Decisão
+
 > Foi adotada uma modelagem com regras rígidas de integridade no nível de banco de dados (constraints `CHECK` e `UNIQUE`) e indexação composta otimizada na tabela `exchange_rate`.
 
 ## Contexto
+
 O sistema realiza conversões de moedas e auditoria de liquidações financeiras. Cotações zeradas, negativas ou duplicadas no mesmo dia podem causar falhas críticas de cálculo (como divisão por zero) ou inconsistências contábeis. Além disso, consultas de cotação por par de moedas e data são frequentes e críticas para a performance.
 
 ## Alternativas avaliadas
@@ -172,14 +172,14 @@ O sistema realiza conversões de moedas e auditoria de liquidações financeiras
 
 A combinação de validações no banco e índice planejado foi adotada por três razões principais:
 
-1. **Defesa em Profundidade (*Defense in Depth*) e Constraint `CHECK`:**
+1. **Defesa em Profundidade (_Defense in Depth_) e Constraint `CHECK`:**
    A constraint `CHECK (exchange_rate > 0)` garante que nenhuma taxa menor ou igual a zero seja inserida. Isso previne falhas graves na aplicação (como divisão por zero no cálculo de conversão) e assegura que os dados permaneçam válidos mesmo que ocorra um bug no backend ou um script SQL seja executado diretamente no banco.
 
 2. **Garantia de Invariância Contábil e Constraint `UNIQUE`:**
    A constraint `uq_rate_by_date` garante a unicidade do par `(target_currency_id, source_currency_id, reference_date)`, impedindo a existência de duas cotações conflitantes para o mesmo par de moedas no mesmo dia.
 
 3. **Otimização de Consultas e Índice Composto DESC (`idx_exchange_rate_search`):**
-   A consulta mais frequente do sistema busca a cotação de um par específico de moedas na data mais recente. O índice composto `(source_currency_id, target_currency_id, reference_date DESC)` cobre exatamente os campos da cláusula `WHERE` e a ordenação do `ORDER BY reference_date DESC`, permitindo uma busca via *Index Scan* de baixíssima latência ($O(\log N)$).
+   A consulta mais frequente do sistema busca a cotação de um par específico de moedas na data mais recente. O índice composto `(source_currency_id, target_currency_id, reference_date DESC)` cobre exatamente os campos da cláusula `WHERE` e a ordenação do `ORDER BY reference_date DESC`, permitindo uma busca via _Index Scan_ de baixíssima latência ($O(\log N)$).
 
 4. **Precisão Numérica (`DECIMAL(18, 6)`):**
    O tipo `DECIMAL` foi escolhido em detrimento do `FLOAT`/`DOUBLE` para evitar inconsistências decorrentes do arredondamento de ponto flutuante em operações financeiras.
@@ -194,3 +194,38 @@ A combinação de validações no banco e índice planejado foi adotada por trê
 ## Desvantagens
 
 - **Pequeno Overhead em Escrita:** A verificação de constraints e atualização do índice adiciona um custo insignificante no `INSERT`/`UPDATE` (aceitável dado que cotações têm volume de leitura muito superior ao de escrita).
+
+# ADR-006 - Lombok
+
+## Decisão
+
+> Foi adotado o Lombok no projeto com o objetivo de reduzir código boilerplate e acelerar a implementação dentro do prazo disponível para o desafio técnico.
+
+## Contexto
+
+O projeto possui diversas classes que exigem código repetitivo, como construtores, getters, setters e outros métodos auxiliares.
+
+Considerando o prazo limitado para desenvolvimento e entrega do case, optou-se pela utilização do Lombok para reduzir esse código e concentrar o esforço na implementação das regras de negócio, arquitetura, testes e documentação.
+
+## Alternativas avaliadas
+
+- Implementação manual de construtores, getters e setters.
+- Utilização do Lombok. (Escolhido)
+
+## Motivo da escolha
+
+Embora, em projetos do dia a dia, exista uma preferência pessoal por evitar o uso do Lombok e manter o código Java mais explícito, neste projeto a biblioteca foi utilizada de forma pragmática para ganhar velocidade de implementação e cumprir o prazo de entrega.
+
+## Vantagens
+
+- Redução significativa de código boilerplate.
+- Maior velocidade de implementação.
+- Menor quantidade de código repetitivo.
+- Permite concentrar o desenvolvimento nas regras de negócio e arquitetura.
+
+## Desvantagens
+
+- Adiciona uma dependência externa ao projeto.
+- Parte do código utilizado pela aplicação é gerada em tempo de compilação.
+- Pode dificultar a compreensão do código para desenvolvedores que não estejam familiarizados com Lombok.
+- Aumenta a dependência de recursos específicos da biblioteca.
