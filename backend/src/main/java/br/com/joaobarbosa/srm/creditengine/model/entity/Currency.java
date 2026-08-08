@@ -1,6 +1,9 @@
 package br.com.joaobarbosa.srm.creditengine.model.entity;
+
 import br.com.joaobarbosa.srm.creditengine.model.base.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 
@@ -9,7 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @ToString(callSuper = true)
 public class Currency extends BaseEntity {
 
