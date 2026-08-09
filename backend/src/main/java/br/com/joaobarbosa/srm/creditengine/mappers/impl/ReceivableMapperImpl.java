@@ -64,6 +64,7 @@ public class ReceivableMapperImpl implements ReceivableMapper {
                 entity.getAssignor().getName(),
                 entity.getReceivableType().getCode(),
                 entity.getCurrency().getIsoCode(),
+                entity.getCurrency().getId(),
                 entity.getFaceValue(),
                 entity.getStatus().name(),
                 entity.getDueDate(),

@@ -4,7 +4,7 @@ package br.com.joaobarbosa.srm.creditengine.dto.currency.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record CurrencyRequest(
+public record CreateCurrency(
 
         @NotBlank(message = "O código ISO é obrigatório")
         @Size(min = 3, max = 3, message = "O código ISO deve possuir 3 caracteres")
