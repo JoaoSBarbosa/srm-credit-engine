@@ -1,6 +1,8 @@
 package br.com.joaobarbosa.srm.creditengine.service.impl;
 
 import br.com.joaobarbosa.srm.creditengine.dto.receivableType.reponse.ReceivableTypeResponse;
+import br.com.joaobarbosa.srm.creditengine.dto.receivableType.request.CreateReceivableType;
+import br.com.joaobarbosa.srm.creditengine.dto.receivableType.request.UpdateReceivableType;
 import br.com.joaobarbosa.srm.creditengine.exception.DomainNotFoundException;
 import br.com.joaobarbosa.srm.creditengine.mappers.ReceivableTypeMapper;
 import br.com.joaobarbosa.srm.creditengine.model.entity.ReceivableType;
@@ -42,4 +44,34 @@ public class ReceivableTypeServiceImpl implements ReceivableTypeService {
 
     }
 
+    @Override
+    @Transactional
+    public ReceivableTypeResponse create(CreateReceivableType request) {
+        ReceivableType receivableType = mapper.toEntity(request);
+
+        ReceivableType saved = repository.save(receivableType);
+
+        return mapper.toResponse(saved);
+    }
+
+    @Override
+    @Transactional
+    public ReceivableTypeResponse update(UUID id, UpdateReceivableType request) {
+        ReceivableType receivableType = findById(id);
+
+        mapper.updateEntity(request, receivableType);
+
+        ReceivableType updated = repository.save(receivableType);
+
+        return mapper.toResponse(updated);
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+
+        ReceivableType receivableType = findById(id);
+
+        repository.delete(receivableType);
+    }
 }

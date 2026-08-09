@@ -16,6 +16,7 @@ public record ReceivableResponse(
         String receivableType,
 
         String currency,
+        UUID currencyId,
 
         BigDecimal faceValue,
 
