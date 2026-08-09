@@ -1,14 +1,16 @@
+import { HomeActions } from "@/features/home/home-actions";
+import { HomeHero } from "@/features/home/home-hero";
+import { HomeInfo } from "@/features/home/home-info";
 import { AppShell } from "@/shared/layout/app-shell";
 
 export default function Home() {
   return (
     <AppShell>
-      <section>
-        <h1 className="text-2xl font-semibold">SRM Credit Engine</h1>
-        <p className="mt-2 text-slate-400">
-          Plataforma de cessão de crédito multimoedas.
-        </p>
-      </section>
+      <main className="mx-auto w-full max-w-7xl space-y-10">
+        <HomeHero />
+        <HomeActions />
+        <HomeInfo />
+      </main>
     </AppShell>
   );
 }

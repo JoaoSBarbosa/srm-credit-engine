@@ -11,6 +11,7 @@ export interface ReceivableResponse {
   assignorName: string;
   receivableType: string;
   currency: string;
+  currencyId: string;
   faceValue: string;
   status: ReceivableStatus;
   dueDate: string;

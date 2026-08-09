@@ -1,15 +1,15 @@
-import type { CurrencyOption } from "@/features/currencies/types";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 import { FormField } from "@/shared/components/fields/form-field";
 import { SelectField } from "@/shared/components/fields/select-field";
 import { MaskedInput } from "@/shared/components/inputs/masked-input";
 
 import type { CreateReceivablePayload } from "../types";
+import { CurrencyResponse } from "@/features/currencies/types";
 
 type ReceivableFormFieldsProps = {
   form: CreateReceivablePayload;
   types: ReceivableTypeOption[];
-  currencies: CurrencyOption[];
+  currencies: CurrencyResponse[];
   inputClassName: string;
   updateField: (field: keyof CreateReceivablePayload, value: string) => void;
 };

@@ -1,9 +1,9 @@
-import type {
+import { getJson, postJson } from "@/lib/api/client";
+import {
+  CreateReceivableBatchPayload,
   CreateReceivablePayload,
   ReceivableResponse,
-} from "@/features/pricing/types";
-import { getJson, postJson } from "@/lib/api/client";
-import { CreateReceivableBatchPayload } from "../types";
+} from "../types";
 
 export async function createReceivable(
   payload: CreateReceivablePayload,

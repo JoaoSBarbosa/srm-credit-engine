@@ -1,13 +1,13 @@
 "use client";
-import type { CurrencyOption } from "@/features/currencies/types";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 import type { BatchReceivableItem, CreateReceivablePayload } from "../../types";
 import { ReceivableBatchForm } from "./receivable-batch-form";
+import { CurrencyResponse } from "@/features/currencies/types";
 
 type Props = {
   items: BatchReceivableItem[];
   types: ReceivableTypeOption[];
-  currencies: CurrencyOption[];
+  currencies: CurrencyResponse[];
   selectedKeys: string[];
   inputClassName: string;
   onUpdate: (

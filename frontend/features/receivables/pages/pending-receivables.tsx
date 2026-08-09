@@ -1,23 +1,33 @@
 "use client";
 
-import Link from "next/link";
-
 import {
   DataTable,
   type DataTableColumn,
 } from "@/shared/components/table/data-table";
-import type { ReceivableResponse } from "@/features/pricing/types";
 import { formatCurrency, formatDate, formatPercent } from "@/utils/formatters";
 
 import { usePendingReceivables } from "../hooks/use-pending-receivables";
 import { ReceivableStatusBadge } from "../components/receivable-status-badge";
 import { getReceivableTypeLabel } from "../util/receivable-type-label";
 import { Button } from "@/shared/components/button";
+import { ReceivableResponse } from "../types";
+import { useSettleReceivable } from "../hooks/use-settle-receivable";
 
 export function PendingReceivables() {
-  const { items, loading } = usePendingReceivables();
+  const { items, loading, reload } = usePendingReceivables();
+  const { settleReceivable, loading: settling } = useSettleReceivable();
 
-  const handleSettle = (currency: string) => {};
+  const handleSettle = async (receivable: ReceivableResponse) => {
+    try {
+      await settleReceivable({
+        receivableId: receivable.id,
+        paymentCurrencyId: receivable.currencyId,
+        settlementDate: new Date().toISOString().split("T")[0],
+      });
+
+      await reload();
+    } catch {}
+  };
   const columns: DataTableColumn<ReceivableResponse>[] = [
     {
       key: "assignor",
@@ -40,6 +50,7 @@ export function PendingReceivables() {
       header: "Moeda",
       render: (row) => <span className="text-slate-400">{row.currency}</span>,
     },
+
     {
       key: "faceValue",
       header: "Valor de face",
@@ -62,12 +73,13 @@ export function PendingReceivables() {
       header: "Status",
       render: (row) => <ReceivableStatusBadge status={row.status} />,
     },
+
     {
       key: "action",
       header: "Ação",
-      align: "right",
+      align: "center",
       render: (row) => (
-        <Button variant={"primary"} onClick={() => handleSettle(row.currency)}>
+        <Button variant={"success"} onClick={() => handleSettle(row)}>
           Liquidar recebível
         </Button>
       ),
