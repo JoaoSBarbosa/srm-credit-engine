@@ -3,3 +3,8 @@ export type CurrencyOption = {
   name: string;
   isoCode: string;
 };
+export interface CurrencyResponse {
+  id: string;
+  isoCode: string;
+  name: string;
+}

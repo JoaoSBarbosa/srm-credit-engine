@@ -67,10 +67,7 @@ export function PendingReceivables() {
       header: "Ação",
       align: "right",
       render: (row) => (
-        <Button
-          variant={"primary"}
-          onClick={() => handleLiquidar(row.currency)}
-        >
+        <Button variant={"primary"} onClick={() => handleSettle(row.currency)}>
           Liquidar recebível
         </Button>
       ),
