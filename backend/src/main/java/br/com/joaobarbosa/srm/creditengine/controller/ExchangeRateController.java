@@ -7,7 +7,8 @@ import br.com.joaobarbosa.srm.creditengine.service.ExchangeRateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +26,24 @@ public class ExchangeRateController {
     public ExchangeRateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
+
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get Exchange Rate", description = "Retorna uma taxa de câmbio pelo identificador."
+    )
+    public ResponseEntity<ExchangeRateResponse> findById(@PathVariable UUID id
+    ) {
+        return ResponseEntity.ok(exchangeRateService.findById(id));
+    }
+
+    @GetMapping
+    @Operation(summary = "List Exchange Rates", description = "Retorna uma lista paginada de taxas de câmbio."
+    )
+    public ResponseEntity<Page<ExchangeRateResponse>> findAll(Pageable pageable
+    ) {
+        return ResponseEntity.ok(exchangeRateService.findAll(pageable));
+    }
+
 
     @PostMapping
     @Operation(summary = "Create Exchange Rate", description = "Cria uma nova taxa de câmbio entre duas moedas.")
@@ -46,12 +65,15 @@ public class ExchangeRateController {
         return ResponseEntity.ok(exchangeRateResponse);
     }
 
+
     @PostMapping("/sync")
     @Operation(summary = "Sync Exchange Rate", description = "Sincroniza a taxa de câmbio com um provedor mockado.")
     public ResponseEntity<ExchangeRateResponse> syncFromMockedProvider(
             @RequestParam UUID sourceCurrencyId,
             @RequestParam UUID targetCurrencyId
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(exchangeRateService.syncFromMockedProvider(sourceCurrencyId, targetCurrencyId));
+        ExchangeRateResponse response = exchangeRateService.sync(sourceCurrencyId, targetCurrencyId);
+
+        return ResponseEntity.ok(response);
     }
 }
