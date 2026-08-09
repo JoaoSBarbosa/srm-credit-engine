@@ -18,32 +18,9 @@ export type PricingSimulationResponse = {
   netAmount: string;
 };
 
-export type CreateReceivablePayload = {
-  assignorName: string;
-  assignorDocument: string;
-  receivableTypeId: string;
-  currencyId: string;
-  faceValue: string;
-  dueDate: string;
-  operationDate: string;
-  baseRate: string;
-};
-
-export type ReceivableResponse = {
-  id: string;
-  assignorId: string;
-  assignorName: string;
-  receivableType: string;
-  currency: string;
-  faceValue: string;
-  status: string;
-  dueDate: string;
-  operationDate: string;
-  baseRate: string;
-};
-
 export type PricingRequestPayload = {
   paymentCurrencyId: string;
+  settlementDate: string;
 };
 
 export type PricingResponse = {
