@@ -1,5 +1,12 @@
 import type { LucideIcon } from "lucide-react";
-import { CircleDollarSign, Coins, FileText, Plus, Receipt } from "lucide-react";
+import {
+  ArrowLeftRight,
+  CircleDollarSign,
+  Coins,
+  FileText,
+  Plus,
+  Receipt,
+} from "lucide-react";
 
 export type NavigationSubmenuItem = {
   label: string;
@@ -45,5 +52,10 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     label: "Liquidações",
     icon: CircleDollarSign,
     href: "/settlements",
+  },
+  {
+    label: "Taxas de câmbio",
+    icon: ArrowLeftRight,
+    href: "/exchange-rates",
   },
 ];

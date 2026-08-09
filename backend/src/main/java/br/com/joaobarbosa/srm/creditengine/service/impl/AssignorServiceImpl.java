@@ -10,6 +10,7 @@ import br.com.joaobarbosa.srm.creditengine.service.AssignorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -28,16 +29,19 @@ public class AssignorServiceImpl implements AssignorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AssignorResponse findById(UUID id) {
         return mapper.toResponse(repository.findById(id).orElseThrow(() -> new DomainNotFoundException(id)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Assignor findEntityById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new DomainNotFoundException(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<AssignorResponse> findAll(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toResponse);
     }

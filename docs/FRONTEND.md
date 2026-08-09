@@ -170,7 +170,7 @@ Esse formato reflete o `Page<T>` do Spring Data e é usado por Moedas, Taxas de 
 
 ### Componentes de apoio
 
-- `ReceivableStatusBadge` — mapeia status (`PENDING`, `SETTLED`, `CANCELLED`) para cor/rótulo em PT-BR.
+- `ReceivableStatusBadge` — mapeia status (`PENDING`, `ACTIVE`, `SETTLED`, `CANCELLED`) para cor/rótulo em PT-BR.
 - `getReceivableTypeLabel` (`util/receivable-type-label.ts`) — converte o código do tipo (ex.: `DUPLICATA_MERCANTIL`) em rótulo legível, com fallback genérico (title case) para tipos não mapeados.
 
 ---
@@ -299,67 +299,7 @@ Acesse `http://localhost:3000`. A API backend (Spring Boot) deve estar disponív
 
 ---
 
-## 12. Executando com Docker (recomendado)
-
-Este projeto sobe backend, frontend e banco de dados juntos através do Docker Compose — não é necessário instalar Java, Node ou PostgreSQL localmente.
-
-### Pré-requisitos
-
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/) (já incluso no Docker Desktop)
-
-### Subindo o ambiente
-
-Na raiz do projeto:
-
-```bash
-docker compose up -d --build
-```
-
-Esse comando irá:
-
-1. Construir a imagem do backend (Spring Boot);
-2. Construir a imagem do frontend (Next.js);
-3. Subir o PostgreSQL, aguardar seu healthcheck e só então iniciar o backend;
-4. Executar as migrations do Flyway automaticamente na primeira subida do backend;
-5. Iniciar o frontend.
-
-### Acessando
-
-| Serviço           | URL                                                             |
-| ----------------- | --------------------------------------------------------------- |
-| Frontend          | http://localhost:3000                                           |
-| Backend (API)     | http://localhost:8080                                           |
-| Swagger / OpenAPI | http://localhost:8080/swagger-ui.html                           |
-| PostgreSQL        | localhost:5435 (usuário `srm_admin`, banco `srm_credit_engine`) |
-
-### Acompanhando os logs
-
-```bash
-docker compose logs -f backend frontend
-```
-
-### Parando o ambiente
-
-```bash
-docker compose down
-```
-
-Para remover também o volume do banco (apaga os dados persistidos):
-
-```bash
-docker compose down -v
-```
-
-### Rebuild após alterações de código
-
-```bash
-docker compose up -d --build backend frontend
-```
-
----
-
-## 13. Resumo das rotas de navegação
+## 12. Resumo das rotas de navegação
 
 | Rota                        | Componente                  | Descrição                                              |
 | --------------------------- | --------------------------- | ------------------------------------------------------ |

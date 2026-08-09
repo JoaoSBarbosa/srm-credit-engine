@@ -29,12 +29,14 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Currency findById(UUID id) {
 
         return repository.findById(id).orElseThrow(() -> new DomainNotFoundException(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<CurrencyResponse> findAll(Pageable pageable) {
 
         return repository.findAll(pageable)
