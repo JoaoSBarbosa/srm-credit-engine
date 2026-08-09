@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { AppShell } from "@/shared/layout/app-shell";
 
 export default function Home() {
   return (
