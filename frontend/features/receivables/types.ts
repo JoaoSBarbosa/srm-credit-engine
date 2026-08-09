@@ -1,9 +1,4 @@
-export type ReceivableStatus =
-  | "PENDING"
-  | "ACTIVE"
-  | "SETTLED"
-  | "CANCELLED"
-  | string;
+export type ReceivableStatus = "PENDING" | "SETTLED" | "CANCELLED" | string;
 
 export interface ReceivableResponse {
   id: string;

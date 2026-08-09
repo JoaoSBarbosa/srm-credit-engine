@@ -1,5 +1,4 @@
 "use client";
-
 import {
   DataTable,
   type DataTableColumn,

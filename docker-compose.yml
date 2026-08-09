@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:16-alpine
     container_name: srm-postgres
@@ -8,23 +7,18 @@ services:
       POSTGRES_DB: srm_credit_engine
       POSTGRES_USER: srm_admin
       POSTGRES_PASSWORD: Srm#2026!DbApp
-
     ports:
       - "5435:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
     networks:
       - srm-network
-
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U srm_admin -d srm_credit_engine"]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 10s
-
 
   backend:
     build:
@@ -47,11 +41,27 @@ services:
 
     networks:
       - srm-network
-
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8080
+    container_name: srm-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+      API_INTERNAL_URL: http://backend:8080
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - srm-network
 
 volumes:
   postgres_data:
-
 
 networks:
   srm-network:

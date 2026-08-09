@@ -48,7 +48,6 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   return (
     <div className="w-full overflow-hidden rounded-xl border border-white/10 bg-slate-900/50">
-      {/* Desktop */}
       <div className="hidden w-full md:block">
         <div className="max-h-[500px] w-full overflow-y-auto overflow-x-hidden">
           <table className="w-full table-fixed">
@@ -110,7 +109,6 @@ export function DataTable<T>({
         </div>
       </div>
 
-      {/* Mobile */}
       <div className="divide-y divide-white/10 md:hidden">
         {loading && (
           <div className="px-5 py-10 text-center text-sm text-slate-500">
@@ -152,7 +150,6 @@ export function DataTable<T>({
           ))}
       </div>
 
-      {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
         <div className="flex flex-col gap-3 border-t border-white/10 px-4 py-3.5 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-5">
           <span>

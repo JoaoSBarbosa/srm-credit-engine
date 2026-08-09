@@ -1,9 +1,4 @@
-import {
-  ArrowRight,
-  BarChart3,
-  CircleDollarSign,
-  ShieldCheck,
-} from "lucide-react";
+import { BarChart3, CircleDollarSign, ShieldCheck } from "lucide-react";
 
 export function HomeHero() {
   return (
