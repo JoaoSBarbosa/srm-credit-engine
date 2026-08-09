@@ -3,6 +3,7 @@ import type { PricingSimulationResponse } from "../types";
 
 type SimulationResultProps = {
   simulation: PricingSimulationResponse | null;
+  onOperate: () => void;
 };
 
 function formatCurrency(value: string) {
@@ -16,7 +17,14 @@ function formatRate(value: string) {
   return `${(Number(value) * 100).toFixed(2)}%`;
 }
 
-export function SimulationResult({ simulation }: SimulationResultProps) {
+export function SimulationResult({
+  simulation,
+  onOperate,
+}: SimulationResultProps) {
+  if (!simulation) {
+    return null;
+  }
+
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-black/20">
       <div className="mb-5">
@@ -75,6 +83,16 @@ export function SimulationResult({ simulation }: SimulationResultProps) {
               value={formatCurrency(simulation.netAmount)}
               highlight
             />
+          </div>
+
+          <div className="mt-6 border-t border-slate-800 pt-5">
+            <button
+              type="button"
+              onClick={onOperate}
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+            >
+              Realizar operação
+            </button>
           </div>
         </div>
       )}

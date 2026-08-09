@@ -14,7 +14,7 @@ export type PricingSimulationResponse = {
   totalRate: string;
   installments: number;
   presentValue: string;
-  appliedExchangeRate: string | null;
+  appliedExchangeRate: string;
   netAmount: string;
 };
 
