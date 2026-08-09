@@ -1,17 +1,17 @@
 "use client";
 
-import type { CurrencyOption } from "@/features/currencies/types";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 
 import type { BatchReceivableItem, CreateReceivablePayload } from "../../types";
 import { ReceivableBatchSimulation } from "./receivable-batch-simulation";
 import { ReceivableBatchSummary } from "./receivable-batch-summary";
 import { ReceivableBatchFields } from "./receivable-batch-fields";
+import { CurrencyResponse } from "@/features/currencies/types";
 
 type ReceivableBatchFormProps = {
   item: BatchReceivableItem;
   types: ReceivableTypeOption[];
-  currencies: CurrencyOption[];
+  currencies: CurrencyResponse[];
   inputClassName: string;
   selected: boolean;
   onToggleSelected: () => void;

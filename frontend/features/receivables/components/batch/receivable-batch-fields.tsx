@@ -2,7 +2,7 @@
 
 import type { ChangeEvent } from "react";
 
-import type { CurrencyOption } from "@/features/currencies/types";
+import type { CurrencyResponse } from "@/features/currencies/types";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 import { FormField } from "@/shared/components/fields/form-field";
 import { SelectField } from "@/shared/components/fields/select-field";
@@ -13,7 +13,7 @@ type ReceivableBatchFieldsProps = {
   data: CreateReceivablePayload;
   itemKey: string;
   types: ReceivableTypeOption[];
-  currencies: CurrencyOption[];
+  currencies: CurrencyResponse[];
   inputClassName: string;
   onUpdate: (field: keyof CreateReceivablePayload, value: string) => void;
 };

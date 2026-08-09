@@ -9,7 +9,7 @@ import {
 import { simulatePricing } from "@/features/pricing/services/pricing.service";
 import type { PricingSimulationResponse } from "@/features/pricing/types";
 import { getCurrencies } from "@/features/currencies/services/currency.service";
-import type { CurrencyOption } from "@/features/currencies/types";
+import type { CurrencyResponse } from "@/features/currencies/types";
 import { getReceivableTypes } from "@/features/receivable-types/services/receivable-type.service";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 
@@ -33,7 +33,7 @@ export function createInitialForm(): CreateReceivablePayload {
 export function useCreateReceivableForm() {
   const [form, setForm] = useState<CreateReceivablePayload>(createInitialForm);
   const [types, setTypes] = useState<ReceivableTypeOption[]>([]);
-  const [currencies, setCurrencies] = useState<CurrencyOption[]>([]);
+  const [currencies, setCurrencies] = useState<CurrencyResponse[]>([]);
   const [preview, setPreview] = useState<PricingSimulationResponse | null>(
     null,
   );
@@ -133,7 +133,9 @@ export function useCreateReceivableForm() {
 
       try {
         await createReceivable(form);
-         setMessage("O recebível foi registrado e está disponível para consulta.");
+        setMessage(
+          "O recebível foi registrado e está disponível para consulta.",
+        );
         toast.success("Recebível criado com sucesso.");
         resetForm();
       } catch (err) {

@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import type { ReceivableResponse } from "@/features/pricing/types";
 import { getPendingReceivables } from "../services/receivable.service";
+import { ReceivableResponse } from "../types";
 
 export function usePendingReceivables() {
   const [items, setItems] = useState<ReceivableResponse[]>([]);

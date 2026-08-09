@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { toast } from "sonner";
 
-import type { CurrencyOption } from "@/features/currencies/types";
+import type { CurrencyResponse } from "@/features/currencies/types";
 import type { ReceivableTypeOption } from "@/features/receivable-types/types";
 import { getCurrencies } from "@/features/currencies/services/currency.service";
 import { getReceivableTypes } from "@/features/receivable-types/services/receivable-type.service";
@@ -44,7 +44,7 @@ export function useCreateReceivableBatch() {
   ]);
 
   const [types, setTypes] = useState<ReceivableTypeOption[]>([]);
-  const [currencies, setCurrencies] = useState<CurrencyOption[]>([]);
+  const [currencies, setCurrencies] = useState<CurrencyResponse[]>([]);
 
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
 
